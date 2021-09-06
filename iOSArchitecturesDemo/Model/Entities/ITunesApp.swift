@@ -20,7 +20,10 @@ public struct ITunesApp: Codable {
     public let averageRating: Float?
     public let averageRatingForCurrentVersion: Float?
     public let size: Bytes?
+    public let version: String?
+    public let releaseNotes: String?
     public let iconUrl: String?
+    public let currentVersionReleaseDate: Date?
     public let screenshotUrls: [String]
     
     // MARK: - Codable
@@ -34,6 +37,9 @@ public struct ITunesApp: Codable {
         case averageRating = "averageUserRating"
         case averageRatingForCurrentVersion = "averageUserRatingForCurrentVersion"
         case size = "fileSizeBytes"
+        case version
+        case releaseNotes
+        case currentVersionReleaseDate
         case iconUrl = "artworkUrl512"
         case screenshotUrls = "screenshotUrls"
     }
@@ -48,6 +54,9 @@ public struct ITunesApp: Codable {
         self.averageRating = try? container.decode(Float.self, forKey: .averageRating)
         self.averageRatingForCurrentVersion = try? container.decode(Float.self, forKey: .averageRatingForCurrentVersion)
         self.size = (try? container.decode(String.self, forKey: .size)) >>- { Bytes($0) }
+        self.version = try? container.decode(String.self, forKey: .version)
+        self.releaseNotes = try? container.decode((String.self), forKey: .releaseNotes)
+        self.currentVersionReleaseDate = try? container.decode(Date.self, forKey: .currentVersionReleaseDate)
         self.iconUrl = try? container.decode(String.self, forKey: .iconUrl)
         self.screenshotUrls = (try? container.decode([String].self, forKey: .screenshotUrls)) ?? []
     }
@@ -62,6 +71,9 @@ public struct ITunesApp: Codable {
                   averageRating: Float?,
                   averageRatingForCurrentVersion: Float?,
                   size: Bytes?,
+                  version: String?,
+                  releaseNotes: String?,
+                  currentVersionReleaseDate: Date?,
                   iconUrl: String?,
                   screenshotUrls: [String]) {
         self.appName = appName
@@ -72,6 +84,9 @@ public struct ITunesApp: Codable {
         self.averageRating = averageRating
         self.averageRatingForCurrentVersion = averageRatingForCurrentVersion
         self.size = size
+        self.version = version
+        self.releaseNotes = releaseNotes
+        self.currentVersionReleaseDate = currentVersionReleaseDate
         self.iconUrl = iconUrl
         self.screenshotUrls = screenshotUrls
     }

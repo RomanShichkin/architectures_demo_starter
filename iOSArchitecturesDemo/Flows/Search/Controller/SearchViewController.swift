@@ -51,6 +51,8 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Music", style: .plain, target: self, action: #selector(toMusicTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .white
         self.searchView.searchBar.delegate = self
         self.searchView.tableView.register(AppCell.self, forCellReuseIdentifier: Constants.reuseIdentifier)
         self.searchView.tableView.delegate = self
@@ -60,6 +62,10 @@ final class SearchViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.throbber(show: false)
+    }
+    
+    @objc private func toMusicTapped() {
+        presenter.viewDidMoveToSongSearch()
     }
 }
 
