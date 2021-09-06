@@ -10,21 +10,54 @@ import UIKit
 
 final class AppStartManager {
     
-    var window: UIWindow?
+    static let shared = AppStartManager()
+    private init() {}
     
-    init(window: UIWindow?) {
-        self.window = window
+    private enum Screens {
+        case appSearch
+        case musicSearch
     }
+    private var currentScreen: Screens = .appSearch
     
-    func start() {
+    func start(window: UIWindow) {
+        currentScreen = .appSearch
         let rootVC = SearchBuilder.build()
-        rootVC.navigationItem.title = "Search via iTunes"
+        rootVC.navigationItem.title = "Поиск по приложениям iTunes"
         
         let navVC = self.configuredNavigationController
         navVC.viewControllers = [rootVC]
         
-        window?.rootViewController = navVC
-        window?.makeKeyAndVisible()
+        window.rootViewController = navVC
+        window.makeKeyAndVisible()
+    }
+    
+    func openAppSearch() {
+        currentScreen = .appSearch
+        let rootVC = SearchBuilder.build()
+        rootVC.navigationItem.title = "Поиск по приложениям iTunes"
+        
+        UIView.transition(
+            with: configuredNavigationController.view,
+            duration: 0.4,
+            options: .transitionFlipFromLeft,
+            animations: {
+                self.configuredNavigationController.setViewControllers([rootVC], animated: true)
+            }, completion: nil)
+    }
+    
+    func openMusicSearch() {
+        
+        currentScreen = .musicSearch
+        let rootVC = SearchMusicBuilder.build()
+        rootVC.navigationItem.title = "Поиск по музыке iTunes"
+        
+        UIView.transition(
+            with: configuredNavigationController.view,
+            duration: 0.4,
+            options: .transitionFlipFromRight,
+            animations: {
+                self.configuredNavigationController.setViewControllers([rootVC], animated: true)
+            }, completion: nil)
     }
     
     private lazy var configuredNavigationController: UINavigationController = {

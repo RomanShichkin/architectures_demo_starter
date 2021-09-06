@@ -20,6 +20,7 @@ protocol SearchViewInput: AnyObject {
 protocol SearchViewOutput: AnyObject {
     func viewDidSearch(with query: String)
     func viewDidSelect(app: ITunesApp)
+    func viewDidMoveToSongSearch()
 }
 
 class SearchPresenter {
@@ -61,5 +62,8 @@ extension SearchPresenter: SearchViewOutput {
         openAppDetails(with: app)
     }
     
+    func viewDidMoveToSongSearch() {
+        AppStartManager.shared.openMusicSearch()
+    }
     
 }
